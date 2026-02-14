@@ -555,18 +555,24 @@
 
         function getBookingsForDay(month, day) {
             const bookings = [];
-            
+
             allData.forEach(parent => {
                 if (parent.selections && parent.selections[month] && parent.selections[month][day]) {
-                    bookings.push({
-                        parentName: parent.parent_name,
-                        childName: parent.child_name,
-                        timeSlots: parent.selections[month][day],
-                        id: parent.id
-                    });
+                    const slots = parent.selections[month][day];
+
+                    const validSlots = slots.filter(slot => slot !== "N/A");
+
+                    if (validSlots.length > 0) {
+                        bookings.push({
+                            parentName: parent.parent_name,
+                            childName: parent.child_name,
+                            timeSlots: validSlots,
+                            id: parent.id
+                        });
+                    }
                 }
             });
-            
+
             return bookings;
         }
 
