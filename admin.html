@@ -559,8 +559,8 @@
             allData.forEach(parent => {
                 if (parent.selections && parent.selections[month] && parent.selections[month][day]) {
                     bookings.push({
-                        parentName: parent.parentName,
-                        childName: parent.childName,
+                        parentName: parent.parent_name,
+                        childName: parent.child_name,
                         timeSlots: parent.selections[month][day],
                         id: parent.id
                     });
@@ -664,11 +664,11 @@
             let csv = 'Parent Name,Child Name,Month,Day,Time Slot,Submitted Date\n';
             
             data.forEach(parent => {
-                const submittedDate = new Date(parent.created_at || parent.createdAt).toLocaleDateString();
+                const submittedDate = new Date(parent.created_at).toLocaleDateString();
                 Object.keys(parent.selections || {}).forEach(month => {
                     Object.keys(parent.selections[month]).forEach(day => {
                         parent.selections[month][day].forEach(slot => {
-                            csv += `"${parent.parentName}","${parent.childName}","${month}","${day}","${slot}","${submittedDate}"\n`;
+                            csv += `"${parent.parent_name}","${parent.child_name}","${month}","${day}","${slot}","${submittedDate}"\n`;
                         });
                     });
                 });

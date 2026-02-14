@@ -432,6 +432,45 @@
     <script>
         const API_URL = '';
 
+        const CACHE_KEY = "rhythms_parent_availability";
+
+        function saveCache() {
+            const parentName = document.getElementById("parentName").value;
+            const childName = document.getElementById("childName").value;
+
+            const checked = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                checked.push(cb.id);
+            });
+
+            localStorage.setItem(CACHE_KEY, JSON.stringify({
+                parentName,
+                childName,
+                checked
+            }));
+        }
+
+        function loadCache() {
+            const saved = localStorage.getItem(CACHE_KEY);
+            if (!saved) return;
+
+            const data = JSON.parse(saved);
+
+            document.getElementById("parentName").value = data.parentName || "";
+            document.getElementById("childName").value = data.childName || "";
+
+            if (Array.isArray(data.checked)) {
+                data.checked.forEach(id => {
+                    const cb = document.getElementById(id);
+                    if (cb) cb.checked = true;
+                });
+            }
+        }
+
+        function clearCache() {
+            localStorage.removeItem(CACHE_KEY);
+        }
+
         const months = {
             may: { name: 'May', year: 2026, days: 31, startDay: 4 },
             june: { name: 'June', year: 2026, days: 30, startDay: 0 },
@@ -580,10 +619,10 @@
             try {
                 await DB.add(availability);
                 showMessage('success', '');
-                // Clear form
                 document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => cb.checked = false);
                 document.getElementById('parentName').value = '';
                 document.getElementById('childName').value = '';
+                clearCache();
             } catch (error) {
                 console.error('Error:', error);
                 showMessage('error', 'Failed to submit. Please try again.');
@@ -596,6 +635,11 @@
         Object.keys(months).forEach(monthKey => {
             generateCalendar(monthKey);
         });
+
+        loadCache();
+
+        document.addEventListener("input", saveCache);
+        document.addEventListener("change", saveCache);
     </script>
     <script src="supabase-config.js"></script>
 </body>
