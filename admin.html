@@ -312,6 +312,14 @@
             border-radius: 12px;
             margin-bottom: 10px;
             border-left: 4px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .booking-content {
+            flex: 1;
         }
 
         .parent-name {
@@ -343,13 +351,17 @@
             background: #dc3545;
             color: white;
             border: none;
-            padding: 6px 12px;
+            padding: 8px;
             border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            font-size: 1.1rem;
             cursor: pointer;
-            margin-top: 8px;
             transition: background 0.3s;
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .delete-booking-btn:hover {
@@ -620,14 +632,16 @@
                 bookings.forEach(booking => {
                     html += `
                         <div class="booking-item">
-                            <button class="delete-booking-btn" onclick="deleteBooking(${booking.id}, '${monthName}', ${day})">× Delete</button>
-                            <div class="parent-name">${booking.parentName}</div>
-                            <div class="child-name">Child: ${booking.childName}</div>
-                            <div>
-                                ${booking.timeSlots.map(slot => 
-                                    `<span class="time-slot ${slot === 'N/A' ? 'na' : ''}">${slot}</span>`
-                                ).join('')}
+                            <div class="booking-content">
+                                <div class="parent-name">${booking.parentName}</div>
+                                <div class="child-name">Child: ${booking.childName}</div>
+                                <div>
+                                    ${booking.timeSlots.map(slot => 
+                                        `<span class="time-slot ${slot === 'N/A' ? 'na' : ''}">${slot}</span>`
+                                    ).join('')}
+                                </div>
                             </div>
+                            <button class="delete-booking-btn" onclick="deleteBooking(${booking.id}, '${monthName}', ${day})">🗑️</button>
                         </div>
                     `;
                 });
