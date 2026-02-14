@@ -17,7 +17,7 @@
         }
 
         .container {
-            max-width: 480px;
+            max-width: 100%;
             margin: 0 auto;
             padding-bottom: 100px;
         }
@@ -52,7 +52,7 @@
         }
 
         .content {
-            padding: 15px;
+            padding: 12px;
         }
 
         .parent-info {
@@ -292,14 +292,14 @@
 
         @media (min-width: 768px) {
             body {
-                background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+                background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);\n                padding: 20px;
             }
 
             .container {
                 max-width: 900px;
                 background: white;
                 border-radius: 20px;
-                margin-top: 20px;
+                margin-top: 0;
                 box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             }
 
@@ -435,19 +435,26 @@
         }
 
         function loadCache() {
-            const saved = localStorage.getItem(CACHE_KEY);
-            if (!saved) return;
+            try {
+                const saved = localStorage.getItem(CACHE_KEY);
+                if (!saved) return;
 
-            const data = JSON.parse(saved);
+                const data = JSON.parse(saved);
 
-            document.getElementById("parentName").value = data.parentName || "";
-            document.getElementById("childName").value = data.childName || "";
+                const parentInput = document.getElementById("parentName");
+                const childInput = document.getElementById("childName");
+                
+                if (parentInput) parentInput.value = data.parentName || "";
+                if (childInput) childInput.value = data.childName || "";
 
-            if (Array.isArray(data.checked)) {
-                data.checked.forEach(id => {
-                    const cb = document.getElementById(id);
-                    if (cb) cb.checked = true;
-                });
+                if (Array.isArray(data.checked)) {
+                    data.checked.forEach(id => {
+                        const cb = document.getElementById(id);
+                        if (cb) cb.checked = true;
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading cache:', error);
             }
         }
 
@@ -621,7 +628,9 @@
                 generateCalendar(monthKey);
             });
 
-            loadCache();
+            setTimeout(() => {
+                loadCache();
+            }, 100);
 
             document.addEventListener("input", saveCache);
             document.addEventListener("change", saveCache);
