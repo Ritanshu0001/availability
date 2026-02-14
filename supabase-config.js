@@ -2,7 +2,7 @@
 const SUPABASE_CONFIG = {
     // IMPORTANT: Replace these with your actual Supabase credentials
     // Get them from: https://app.supabase.com -> Your Project -> Settings -> API
-    SUPABASE_URL: 'https:/xuxcsmnknrmqubrhxpyw.supabase.co',  // e.g., https://abcdefghijk.supabase.co
+    SUPABASE_URL: 'https://xuxcsmnknrmqubrhxpyw.supabase.co',  // e.g., https://abcdefghijk.supabase.co
     SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh1eGNzbW5rbnJtcXVicmh4cHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwMjcyNTEsImV4cCI6MjA4NjYwMzI1MX0.kUjROhDf5FDTuvbHCYeBs-TwH72Tvsw3d6iCUvQWhC0'  // Long key starting with eyJ...
 };
 
